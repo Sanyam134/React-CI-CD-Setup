@@ -1,4 +1,4 @@
-name: "Sample reacy CI Pipeline/Workflow"
+name: "Sample react CI Pipeline/Workflow"
 
 on:
     push:
@@ -22,8 +22,17 @@ jobs:
             - name: "Clone the repository"
               uses: actions/checkout@v2
 
+            - name: "list directories"
+              uses: ls
+
             - name: "Install dependencies"
               run: npm install
 
             - name: "List directories"
               run: ls
+
+            - name: "Run tests"
+              run: npm test
+
+            - name: "Run built"
+              run: npm run build
