@@ -5,7 +5,7 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 
 export default [
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'src/__tests__'] },
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
@@ -15,11 +15,11 @@ export default [
         ecmaVersion: 'latest',
         ecmaFeatures: { jsx: true },
         sourceType: 'module',
-      },
     },
-    settings: { react: { version: '18.3' } },
-    plugins: {
-      react,
+  },
+     settings: { react: { version: '18.3' } },
+     plugins: {
+      react, 
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
     },
