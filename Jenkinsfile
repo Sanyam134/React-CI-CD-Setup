@@ -1,31 +1,33 @@
 pipeline {
-       agent any
-       options {
-              skipDefaultCheckout(true)
-       }
-       stages {
+    agent any
+    options {
+        skipDefaultCheckout(true)
+    }
+    stages {
 
-          stage ("Clean up code") {
+        stage ("Clean up code") {
             steps {
                 cleanWs()
             }
-          }
+        }
 
-          stage ('Checkout using SCM') {
+        stage ('Checkout using SCM') {
             steps {
                 checkout SCM
             }
-          }
+        }
 
-           stage ('Build') {
-               agent {
-                  docker {
-                       image 'node:22.11.0-alpine3.20'
-                       args '-u root'
-                       reuseNode true 
-                  }
-              }
-                steps{
+        stage ('Build') {
+            agent {
+                docker {
+                    image 'node:22.11.0-alpine3.20'
+                    args '-u root'
+                    reuseNode true 
+                }
+            }
+
+
+            steps{
                        
                        
                     sh '''
@@ -36,9 +38,42 @@ pipeline {
                        npm run build
                        ls -l
 
-                       '''
+                    '''
+            }
+        }
+
+        stage('Test') {
+            agent {
+                docker {
+                    image 'node:22.11.0-alpine3.20'
+                    args '-u root'
+                    reuseNode true
                 }
-           }
-       }
+            }
+
+            steps {
+                sh '''
+                    npm run test                   
+                '''    
+            }
+        }
+
+        stage('Deploy') {
+            agent {
+                docker {
+                    image 'node:22.11.0-alpine3.20'
+                    args '-u root'
+                    reuseNode true
+                }
+            }
+
+            steps {
+                sh '''
+                    npm install -g vercel
+                '''
+
+            }
+        }
+    }
 
 }
