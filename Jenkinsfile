@@ -5,19 +5,19 @@ pipeline {
     }
     stages {
 
-        stage ("Clean up code") {
+        stage("Clean up code") {
             steps {
                 cleanWs()
             }
         }
 
-        stage ('Checkout using SCM') {
+        stage('Checkout using SCM') {
             steps {
                 checkout SCM
             }
         }
 
-        stage ('Build') {
+        stage('Build') {
             agent {
                 docker {
                     image 'node:22.11.0-alpine3.20'
