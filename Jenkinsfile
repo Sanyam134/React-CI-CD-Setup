@@ -1,8 +1,24 @@
 pipeline {
        agent any
+       options {
+              skipDefaultCheckout(true)
+       }
        stages {
+
+          stage ("Clean up code") {
+            steps {
+                cleanup()
+            }
+          }
+
+          stage ('Checkout using SCM') {
+            steps {
+                checkout SCM
+            }
+          }
+
            stage ('Build') {
-              agent {
+               agent {
                   docker {
                        image 'node:22.11.0-alpine3.20'
                        args '-u root'
@@ -10,6 +26,8 @@ pipeline {
                   }
               }
                 steps{
+                       
+                       
                     sh '''
                        ls -l
                        node --version
